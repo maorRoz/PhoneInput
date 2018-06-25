@@ -12,9 +12,6 @@ class PhoneInput extends Component {
     }
 
     handleKey(event){
-        console.log("numberLength: "+this.state.numberLength);
-        console.log("formatted: "+this.state.formatted);
-        console.log("text: "+this.state.text);
         const backSpaceCode = 8;
         if(event.keyCode >= "0".charCodeAt(0) && event.keyCode <= "9".charCodeAt(0)){
            this.handleAdd(String.fromCharCode(event.keyCode));
