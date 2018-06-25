@@ -18,10 +18,17 @@ class PhoneValue extends Component {
 
     tick(){
         let phoneInput = document.getElementById("phoneInput").value;
+        let filteredText;
         if(phoneInput.length > 0){
-            phoneInput = "+"+phoneInput;
+            filteredText = "+";
         }
-        this.setState({phoneOutputText : phoneInput});
+        for(let i=0;i<phoneInput.length;i++){
+            if(phoneInput[i] === '(' || phoneInput[i] === ')' || phoneInput[i] === '-'){
+                continue;
+            }
+            filteredText+= phoneInput[i];
+        }
+        this.setState({phoneOutputText : filteredText});
     }
     render() {
         let phoneValue = (<div id="phoneValue">Value: {this.state.phoneOutputText}</div>);
