@@ -30,18 +30,20 @@ class PhoneInput extends Component {
 
     handleFormatAdd(number){
         let newText;
-        if(this.state.numberLength === 10){ // (XXX)XXX-XXXX
-            newText = this.unformat(this.state.text+number);
-            this.setState({formatted: false});
-        }
-        else if(this.state.numberLength === 1 || this.state.numberLength === 2){ //(X) OR (XX)
-            newText =  this.state.text.substring(0,this.state.numberLength+1)+number+")";
-        }
-        else if(this.state.numberLength === 6){ //(XXX)XXX
-            newText = this.state.text+"-"+number;
-        }
-        else{ //(XXX)XXX-X or (XXX)XXX-XX or (XXX)XXX-XXX 
-            newText = this.state.text+number; 
+        switch(this.state.numberLength){
+            case 1:   
+            case 2: //(X) OR (XX)
+                newText =  this.state.text.substring(0,this.state.numberLength+1)+number+")";
+                break;
+            case 6: //(XXX)XXX
+                newText = this.state.text+"-"+number;
+                break;
+            case 10: // (XXX)XXX-XXXX
+                newText = this.unformat(this.state.text+number);
+                this.setState({formatted: false});
+                break; 
+            default: //(XXX)XXX-X or (XXX)XXX-XX or (XXX)XXX-XXX 
+                newText = this.state.text+number; 
         }
         this.setState({text: newText,numberLength: this.state.numberLength+1});
 
@@ -70,16 +72,20 @@ class PhoneInput extends Component {
     }
 
     handleFormatRemove(rawText){
-        if(this.state.numberLength === 1){ // (X)
-            rawText = "";
-            this.setState({formatted : false})
-        }
-        else if(this.state.numberLength === 3 || this.state.numberLength === 2){ // (XX) or (XXX)
-            rawText = rawText.substring(0,rawText.length -1);
-            rawText +=")";
-        }
-        else if(this.state.numberLength === 7){ // (XXX)XXX-X
-            rawText = rawText.substring(0,rawText.length -1);
+        switch(this.state.numberLength){
+            case 1: // (X)
+                rawText = "";
+                this.setState({formatted : false})
+                break;
+            case 2:
+            case 3: // (XX) or (XXX)
+                rawText = rawText.substring(0,rawText.length -1);
+                rawText +=")";
+                break;
+            case 7: //(XXX)XXX-X
+                rawText = rawText.substring(0,rawText.length -1);
+                break;
+            default:
         }
         this.setState({text: rawText,numberLength: this.state.numberLength-1})
     }
